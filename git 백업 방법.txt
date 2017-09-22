@@ -1,0 +1,9 @@
+1.로컬저장소에 백업할 명단작성
+  > git add .
+2.로컬저장소에 백업
+  > git commit -m '백업이유'
+3.서버의 원격저장소에 업로드
+  > git push
+
+a.git경로 설정 (클론)
+  > git clone https://github.com/leech5151/myrep
