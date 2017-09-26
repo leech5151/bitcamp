@@ -10,6 +10,8 @@
 //  수학 : 100
 //  총점 : 300
 //  평균 : 100.0
+// ver 03
+// 변수를 이용하여 이름,국어,영어,수학,총점,합계를 저장하라!
 import java.util.Scanner;
 
 public class App {
@@ -37,6 +39,6 @@ public class App {
         
         System.out.print("평균 : ");
         avg =(double)sum / 3.0 ;
-        System.out.println(avg);
+        System.out.println((int)(avg*100)/100.0);
     }
 }
