@@ -24,18 +24,18 @@ public class rd {
             }
         }
         System.out.println("-------------------------칠판--------------------------\n");
-        System.out.print("       ");
+        
         for(int j = 0; j < 27; j++){
-            
-            if ((j+1) == 7 || (j+1) == 15 || (j+1) == 23){
+            System.out.print(num[j]+" ");
+            if ((j+1) == 8 || (j+1) == 16 || (j+1) == 23){
                 System.out.println();
             }
-            else if ((j+1) == 22)
+            else if ((j+1) == 23)
             {
                 System.out.print("       ");
             }
             else{
-                System.out.print(num[j]+" ");
+                continue;
             }
         }
     }
