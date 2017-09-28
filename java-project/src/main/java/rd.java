@@ -23,14 +23,19 @@ public class rd {
                 }
             }
         }
-        System.out.println("-------------------------칠판--------------------------");
+        System.out.println("-------------------------칠판--------------------------\n");
+        System.out.print("       ");
         for(int j = 0; j < 27; j++){
-            System.out.print(num[j]+" ");
-            if ((j+1) % 8 == 0){
+            
+            if ((j+1) == 7 || (j+1) == 15 || (j+1) == 23){
                 System.out.println();
             }
+            else if ((j+1) == 22)
+            {
+                System.out.print("       ");
+            }
             else{
-                continue;
+                System.out.print(num[j]+" ");
             }
         }
     }
