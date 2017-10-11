@@ -8,7 +8,7 @@ public class Test15_7 {
                 c=30;
 
                 if (a >= b) System.out.println(a);
-                else System.out.println(b);
+                else System.out.println(b); 
 
 
                 int[] arr = {10,20,30};
@@ -22,7 +22,7 @@ public class Test15_7 {
 
                 boolean b1 =false;
                 boolean result = false && (b1=true);
-                System.out.printf("b1=%b,result=%b\n",b1,result);
+                System.out.printf("b1=%b,result=%b\n",b1,result);     
 
                 b1 =false;
                 result = false & (b1=true);

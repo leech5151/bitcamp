@@ -11,10 +11,10 @@ public class Test12_3 {
         
         int x=100,y=0,z=300;
 
-        System.out.println(i);
+        System.out.println(i); 
         System.out.println(j);
         System.out.println(k);
-        System.out.println(x);
+        System.out.println(x);  
         System.out.println(y);
         System.out.println(z);
 

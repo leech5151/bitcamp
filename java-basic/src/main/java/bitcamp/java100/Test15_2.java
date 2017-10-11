@@ -1,6 +1,6 @@
 
 package bitcamp.java100;
-public class Test15_2 {
+public class Test15_2 {      
         public static void main(String[] args) {
            byte b1 =20,b2=13;
            short s1 = 30, s2 =52;
@@ -24,6 +24,6 @@ public class Test15_2 {
 
           //  float r4 = i1 + l1; 
 
-            double r6 = f1 + d1;
+            double r6 = f1 + d1; 
         }
 }

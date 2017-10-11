@@ -7,7 +7,7 @@ public class Test15_6 {
                 System.out.println(r);
 
                 int s1 = 0;
-                for (int i = 1; i <= 50; i ++)
+                for (int i = 1; i <= 50; i ++) 
                 {
                         
                          s1 = s1 + 101;

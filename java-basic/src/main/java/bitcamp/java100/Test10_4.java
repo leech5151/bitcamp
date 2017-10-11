@@ -1,11 +1,12 @@
+
 package bitcamp.java100;
 
 public class Test10_4 {
 
     public static void main(String[] args) {
         System.out.printf("%4$2s,%3$2s,%2$2s,%1$2s\n", "a", "b", "c", "d");
-
-        System.out.printf("%s,%d,%o,%x,%h,%f,%b,\n","홍길동",100,100,100,100,3.14,true);
+ 
+        System.out.printf("%s,%d,%o,%x,%h,%f,%b,\n","홍길동",100,100,100,100,3.14,true);   
 
         System.out.printf("%f,%.1f,%.2f,%.3f,%4f,%.5f\n",3.141592,3.141592,3.141592,3.141592,3.141592,3.14159);
 

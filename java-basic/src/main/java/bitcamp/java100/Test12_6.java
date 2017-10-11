@@ -1,6 +1,6 @@
 package bitcamp.java100;
 
-public class Test12_6 {
+public class Test12_6 { 
     public static void main(String[] args) {
         byte b =Byte.MAX_VALUE  ;
         System.out.println(b);
@@ -13,5 +13,5 @@ public class Test12_6 {
         b3 = 100+27;
         b =b3;
         
-    }
+    } 
 }

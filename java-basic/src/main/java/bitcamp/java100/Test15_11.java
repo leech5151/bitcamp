@@ -29,7 +29,7 @@ public class Test15_11 {
         p1.otherRead = true;
         p1.otherWrite = false;
         p1.otherExe = true;
-
+   
         System.out.print(p1.isDirectory ? "d" : "-");
         System.out.print(p1.ownerRead ? "r" : "-");
         System.out.print(p1.ownerWrite ? "w" : "-");
@@ -40,6 +40,7 @@ public class Test15_11 {
         System.out.print(p1.otherRead ? "r" : "-");
         System.out.print(p1.otherWrite ? "w" : "-");
         System.out.print(p1.otherExe ? "x" : "-");
+        System.out.println("시발");
     }
 }
 

@@ -12,7 +12,7 @@ public class Test12_1 {
         char c;
 
         b= 100;
-        s= 100;
+        s= 100; 
         i= 100;
         l= 100;
         f= 3.14f;

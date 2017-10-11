@@ -20,7 +20,7 @@
 //임꺽정, 80,80.80,240,80.0
 //유관순, 100,100,100,300,100.0
 //```
-import java.util.Scanner;
+// import java.util.Scanner;
 
 public class App {
   
@@ -72,5 +72,10 @@ public class App {
         //avg =(double)sum / 3.0 ;
         //System.out.println((int)(avg*100)/100.0);
         */
+    }
+
+    public Object getGreeting() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
