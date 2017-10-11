@@ -40,7 +40,7 @@ public class Test15_11 {
         System.out.print(p1.otherRead ? "r" : "-");
         System.out.print(p1.otherWrite ? "w" : "-");
         System.out.print(p1.otherExe ? "x" : "-");
-        System.out.println("시발");
+        System.out.println("커밋과 푸쉬를 한번에!");
     }
 }
 
