@@ -5,11 +5,13 @@ import java.text.Format;
 
 public class Test21_5 {
 
+    static class Gugudan {
+        int x;
+    }
     public static void main(String[] args) {
 
-        class Gugudan {
-            int x;
-        }
+        
+        /////////////////////////////////////////////////////////
         Console console = System.console();
 
         if(console == null) {
