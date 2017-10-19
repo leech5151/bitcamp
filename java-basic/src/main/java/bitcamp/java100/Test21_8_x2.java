@@ -43,7 +43,7 @@ public class Test21_8_x2 {
             inputContact(contact);
             saveContact(contact, cursor);
             cursor++;
-            
+             
             String response = console.readLine("계속 입력하시겠습니까?(y/n) ");
             if(!(response.toLowerCase().equals("y") || 
                  response.toLowerCase().equals("yes"))) 
