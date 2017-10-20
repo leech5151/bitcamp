@@ -16,7 +16,7 @@
 // 다음에 또 봐요!
 // > 
 
-package bitcamp.java100;
+package bitcamp.java100.test21;
 
 import java.io.Console;
 

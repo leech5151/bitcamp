@@ -1,4 +1,4 @@
-package bitcamp.java100;
+package bitcamp.java100.test21;
 
 import java.util.Scanner;
 

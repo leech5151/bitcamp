@@ -1,5 +1,5 @@
 
-package bitcamp.java100;
+package bitcamp.java100.test21;
 
 import java.io.Console;
 
@@ -23,36 +23,33 @@ public class Test21_8_x2 {
         contact.email = console.readLine("이메일 ? ");
         contact.tel = console.readLine("전화 ? ");
     }
-    static void saveContact(Contact contact, int cursor) {
-        Contact[] contacts = new Contact[100];
-        String response = console.readLine("저장하시겠습니까?(y/n) ");
-        if(response.toLowerCase().equals("y") || 
-           response.toLowerCase().equals("yes")) {
-            contacts[cursor] = contact;
+    static void printContact(Contact[] contacts, int cursor) {
+        for(int i = 0; i < cursor; i++) {
+        System.out.printf("%s, %s, %s\n",contacts[i].name, contacts[i].email, contacts[i].tel);
         }
     }
-    
     public static void main(String[] args) {
-        // 콘솔 객체를 준비한다.
+       
         Contact[] contacts = new Contact[100];
-
+ 
         int cursor = 0;
         while(cursor < contacts.length) {
             Contact contact = new Contact();
             
             inputContact(contact);
-            saveContact(contact, cursor);
-            cursor++;
+            String response = console.readLine("저장하시겠습니까?(y/n) ");
+            if(response.toLowerCase().equals("y") || 
+               response.toLowerCase().equals("yes")) {
+                contacts[cursor] = contact;
+                cursor++;
+            }
              
-            String response = console.readLine("계속 입력하시겠습니까?(y/n) ");
+            response = console.readLine("계속 입력하시겠습니까?(y/n) ");
             if(!(response.toLowerCase().equals("y") || 
                  response.toLowerCase().equals("yes"))) 
                 break;
         }
-
-        for(int i = 0; i < cursor; i++) {
-            System.out.printf("%s, %s, %s\n",contacts[i].name, contacts[i].email, contacts[i].tel);
-        }
+        printContact(contacts, cursor);
     }
 }
 
