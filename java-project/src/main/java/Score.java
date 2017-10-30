@@ -1,25 +1,39 @@
+import java.util.Scanner;
 
 public class Score {
-    String name;
-    int[] subjects = new int[3];
-    int sum;
-    float aver;
+    Scanner keyScan = new Scanner(System.in);
+    protected String name;
+    protected int subnum;
+    protected int[] subjects;
+    protected int sum;
+    protected float aver;
     
-    static void compute(Score score) {
-        for (int sub : score.subjects) {
-            score.sum += sub;
+    Score() {
+        System.out.print("이름 ? ");
+        this.name = keyScan.nextLine();
+        
+        System.out.print("몇개 과목 ? ");
+        this.subnum = keyScan.nextInt();
+        this.subjects = new int[this.subnum];
+        
+        for(int i = 0; i < this.subnum; i++) {
+            System.out.printf("%d번째 과목 점수 ? ",i+1);
+            this.subjects[i] = keyScan.nextInt();
         }
-        score.aver = score.sum / 3f;
+        this.compute();
     }
-    static void print(Score s) {
-        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
-                s.name, s.subjects[0], s.subjects[1], s.subjects[2], s.sum, s.aver);
+    
+    void compute() {
+        for (int sub : this.subjects) {
+            this.sum += sub;
+        }
+        this.aver = (float)this.sum / this.subjects.length;
     }
-    static void init(Score score, String name, int kor, int eng, int math) {
-        score.name = name;
-        score.subjects[0] = kor;
-        score.subjects[1] = eng;
-        score.subjects[2] = math;
-        compute(score);
+    void print() {
+        System.out.printf("%-4s",this.name);
+        for(int j= 0; j < subjects.length; j++) {
+            System.out.printf("%4d",this.subjects[j]);
+        }
+        System.out.printf("\n 총점 : %d 평균 : %.1f\n",this.sum, this.aver);
     }
 }

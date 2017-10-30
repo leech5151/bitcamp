@@ -1,19 +1,34 @@
-
-
+import java.util.Scanner;
 
 public class App {
-   
+    static Scanner keyScan = new Scanner(System.in);
     
+
+    static boolean confirm(String message) {
+        
+        System.out.println(message);
+        String respones = keyScan.nextLine().toLowerCase();
+
+        if(respones.equals("y") || respones.equals("yes"))
+            return true;
+        return false;
+    }
+
     public static void main(String[] args) {
+
+        Score[] scores = new Score[100];
+        int cursor = 0;
         
-        Score[] scores = {new Score(), new Score(), new Score()};
-        
-        Score.init(scores[0],"홍길동",100,90,80);
-        Score.init(scores[1],"임꺽정",80,90,70);
-        Score.init(scores[2],"유관순",100,100,100);
-        
-        for (Score s : scores) {
-            Score.print(s);       
+        while(true) {
+            Score score = new Score();
+            scores[cursor++] = score;
+
+            if(!confirm("계속하시겠습니까? ")) {
+                break;
+            }
+        }
+        for(int i = 0; i < cursor; i++) {
+            scores[i].print();
         }
     }
 }
