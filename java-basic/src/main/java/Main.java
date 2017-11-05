@@ -4,44 +4,27 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 
-		int suger = Integer.parseInt(scan.nextLine());
-		if(suger < 3 || suger > 5000) return;
+		int sugar = scan.nextInt();
+		if(sugar < 3 || sugar > 5000) return;
 		int five = 0;
 		int three = 0;
-		int fiveR = suger % 5;
-		int threeR = suger % 3;
-		int tenR = suger % 10;;
-		
-		int result;
+		int result = 0 ;
 
-		if(fiveR == 0 || fiveR == 3 || threeR == 0 || tenR % 3 == 0) {
-			while(suger > 0) {
-				if(suger > 15) {
-					suger -= 5;
-					five++;
-				} else {
-					if(suger >= 5) {
-						if((suger - 5) % 3 == 0 || (suger % 5 == 0)) {
-							suger -= 5;
-							five++;
-						}else {
-							suger -= 3;
-							three++;
-						}
-					}else {
-						suger -= 3;
-						three++;
-					}
+		if(sugar % 5 == 0) {
+			five = sugar / 5;
+			result = five;
+		} else {
+			while(sugar > 0) {
+				if(sugar % 3 == 0) {
+					three = sugar / 3;
+					result = three + five;
 				}
+				sugar -= 5;
+				five++;
 			}
-			result = five + three;
-			System.out.println(result);
-			return;
 		}
-		else {
-			System.out.println("-1");
-			return;
-		}
+		if(result == 0) System.out.println("-1");
+		else System.out.println(result);
 	}
 }
 
