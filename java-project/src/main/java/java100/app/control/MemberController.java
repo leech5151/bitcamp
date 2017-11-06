@@ -1,14 +1,15 @@
-package java100.app;
+package java100.app.control;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 
-public class MemberController {
+import java100.app.domain.Member;
+import java100.app.util.Prompts;
+
+public class MemberController extends GenericController<Member>{
     
-    static Scanner keyScan = new Scanner(System.in);
-    private ArrayList<Member> list = new ArrayList<>();
     
+    
+    @Override
     public void execute() {
         loop:
         while (true) {

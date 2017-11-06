@@ -1,4 +1,4 @@
-package java100.app;
+package java100.app.domain;
 
 public class Member {
     
