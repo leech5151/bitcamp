@@ -1,16 +1,13 @@
 package java100.app.control;
 
 import java.util.Iterator;
-
 import java100.app.domain.Member;
 import java100.app.util.Prompts;
 
 public class MemberController extends GenericController<Member>{
     
-    
-    
-    @Override
-    public void execute() {
+	@Override
+	public void execute() {
         loop:
         while (true) {
             System.out.print("회원관리> ");
@@ -35,8 +32,8 @@ public class MemberController extends GenericController<Member>{
         
         Iterator<Member> iterator = list.iterator();
         while (iterator.hasNext()) {
-        	Member member = iterator.next();
-        	System.out.printf("%-4s, %s\n",  
+            Member member = iterator.next();
+            System.out.printf("%-4s, %s\n",  
                     member.getName(), 
                     member.getEmail());
         }
@@ -45,18 +42,18 @@ public class MemberController extends GenericController<Member>{
     private void doAdd() {
         System.out.println("[회원 등록]");
         
-        Member member;
-        member = new Member(); 
-        member.setName(Prompts.inputString("이름 ?"));
-        member.setEmail(Prompts.inputString("이메일 ?"));
-        member.setPassword(Prompts.inputString("암호 ?"));
-              
+        Member member = new Member();
+        member.setEmail(Prompts.inputString("이메일? "));
+        
         if (findByEmail(member.getEmail()) != null) {
             System.out.println("이미 등록된 이메일입니다.");
-        } else {
-            list.add(member);
+            return;
         }
         
+        member.setName(Prompts.inputString("이름? "));
+        member.setPassword(Prompts.inputString("암호? "));
+        
+        list.add(member);
     } 
     
     private void doView() {
@@ -67,14 +64,15 @@ public class MemberController extends GenericController<Member>{
         
         if (member == null) {
             System.out.printf("'%s'의 회원 정보가 없습니다.\n", email);
-        } else {
-        	System.out.printf("이름: %s\n", member.getName());
-            System.out.printf("이메일: %s\n", member.getEmail());
-            System.out.printf("암호: %s\n", member.getPassword());
+            return;
         }
+        
+        System.out.printf("이름: %s\n", member.getName());
+        System.out.printf("이메일: %s\n", member.getEmail());
+        System.out.printf("암호: %s\n", member.getPassword());
     } 
-
-	private void doUpdate() {
+    
+    private void doUpdate() {
         System.out.println("[회원 변경]");
         String email = Prompts.inputString("이메일? ");
         
@@ -82,25 +80,26 @@ public class MemberController extends GenericController<Member>{
         
         if (member == null) {
             System.out.printf("'%s'의 회원 정보가 없습니다.\n", email);
+            return;
+        }
+        
+        String name = Prompts.inputString("이름?(%s) ", member.getName());
+        if (name.isEmpty()) {
+            name = member.getName();
+        }
+        
+        String password = Prompts.inputString("암호? ");
+        if (password.isEmpty()) {
+            password = member.getPassword();
+        }
+        
+        if (Prompts.confirm2("변경하시겠습니까?(y/N) ")) {
+            member.setName(name);
+            member.setPassword(password);
+            System.out.println("변경하였습니다.");
+            
         } else {
-        	
-            String name = Prompts.inputString("이름 ?(%d)",member.getName());
-            if (name.isEmpty()) {
-                name = member.getName();
-            }
-            
-            String password = Prompts.inputString("암호 ?(%d)",member.getPassword());
-            if (name.isEmpty()) {
-                password = member.getPassword();
-            }
-            
-            if (Prompts.confirm2("변경하시겠습니까?(y/N) ")) {
-                member.setName(name); 
-                member.setPassword(password);
-                System.out.println("변경하였습니다.");
-            } else {
-                System.out.println("변경을 취소하였습니다.");
-            }
+            System.out.println("변경을 취소하였습니다.");
         }
     }
     
@@ -112,13 +111,14 @@ public class MemberController extends GenericController<Member>{
         
         if (member == null) {
             System.out.printf("'%s'의 회원 정보가 없습니다.\n", email);
+            return;
+        }
+        
+        if (Prompts.confirm2("정말 삭제하시겠습니까?(y/N) ")) {
+            list.remove(member);
+            System.out.println("삭제하였습니다.");
         } else {
-            if (Prompts.confirm2("정말 삭제하시겠습니까?(y/N) ")) {
-                list.remove(member);
-                System.out.println("삭제하였습니다.");
-            } else {
-                System.out.println("삭제를 취소하였습니다.");
-            }
+            System.out.println("삭제를 취소하였습니다.");
         }
     }
     
@@ -130,7 +130,16 @@ public class MemberController extends GenericController<Member>{
                 return member;
             }
         }
-    	return null;
+        return null;
     }
-    
 }
+
+
+
+
+
+
+
+
+
+
