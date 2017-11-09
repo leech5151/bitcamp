@@ -33,6 +33,6 @@ public class Test1 {
 		System.out.printf("마지막 변경일=%s\n",
 				new Date(file.lastModified()).toLocaleString());
 		
-		File file2 = new File("dir1");
+		
 	}
 }
