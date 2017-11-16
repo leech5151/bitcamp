@@ -1,6 +1,6 @@
 // File System 다루기 : File 클래스
 //
-package bitcamp.java100.ch14;
+package bitcamp.java100.ch14.ex1;
 
 import java.io.File;
 import java.sql.Date;

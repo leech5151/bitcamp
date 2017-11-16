@@ -1,0 +1,37 @@
+package bitcamp.java100.ch14.ex2;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class MyBufferedOutputStream extends FileOutputStream {
+
+	byte[] buf = new byte[8192];
+	int len;
+	int cursor;
+	
+	public MyBufferedOutputStream(String path) throws FileNotFoundException {
+		super(path);
+	}
+
+	public void write(int b) throws IOException{
+	
+		if(cursor == buf.length) {
+			this.write(buf);
+			cursor = 0;
+		}
+	buf[cursor++] = (byte)b;
+		
+	}
+	@Override
+	public void flush() throws IOException {
+		super.flush();
+	}
+	
+	public static void main(String[] args) {
+		int data = 0x000000fa;
+		
+		byte b = (byte)data;
+		System.out.println(Integer.toHexString(b));
+	}
+}
