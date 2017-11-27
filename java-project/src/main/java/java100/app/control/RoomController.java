@@ -1,13 +1,10 @@
 package java100.app.control;
 
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
+import java100.app.dao.RoomDao;
 import java100.app.domain.Room;
 
 // RoomController는 ArrayList를 상속 받은 서브 클래스이기도 하지만,
@@ -15,6 +12,7 @@ import java100.app.domain.Room;
 public class RoomController extends ArrayList<Room> implements Controller {
     private static final long serialVersionUID = 1L;
     
+    RoomDao roomDao = new RoomDao();
     
     @Override
     public void destroy() {}
@@ -46,18 +44,14 @@ public class RoomController extends ArrayList<Room> implements Controller {
         out.println("[강의실 목록]");
         
         
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "select no,loc,name,capacity from ex_room");
-                ResultSet rs = pstmt.executeQuery();){
-
-            while (rs.next()) {
+        try {
+            List<Room> list = roomDao.selectList();
+            for(Room room : list) {
                 out.printf("%4d, %-4s, %-4s, %4d\n",
-                        rs.getInt("no"),
-                        rs.getString("loc"), 
-                        rs.getString("name"),
-                        rs.getInt("capacity"));
+                        room.getNo(),
+                        room.getName(),
+                        room.getLocation(),
+                        room.getCapacity());
             }
 
         } catch (Exception e) {
@@ -72,18 +66,12 @@ public class RoomController extends ArrayList<Room> implements Controller {
         
         out.println("[강의실 등록]");
         
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "insert into ex_room(loc,name,capacity) values(?,?,?)");
-                ){
-
-            pstmt.setString(1, request.getParameter("loc"));
-            pstmt.setString(2, request.getParameter("name"));
-            pstmt.setInt(3, Integer.parseInt(request.getParameter("capacity")));
-
-            pstmt.executeUpdate();
-            out.println("저장하였습니다.");
+        try {
+            Room room  = new Room();
+            room.setName(request.getParameter("name"));
+            room.setName(request.getParameter("loc"));
+            room.setName(request.getParameter("capacity"));
+            roomDao.insert(room);
 
         } catch (Exception e) {
             e.printStackTrace(); // for developer
@@ -95,19 +83,13 @@ public class RoomController extends ArrayList<Room> implements Controller {
         PrintWriter out = response.getWriter();
         out.println("[강의실 삭제]");
         
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "delete from ex_room where no=?");
-                ){
-            pstmt.setInt(1,Integer.parseInt(request.getParameter("no")));
+        try {
+            int no = Integer.parseInt(request.getParameter("no"));
             
-            if (pstmt.executeUpdate() > 0) {
+            if (roomDao.delete(no) > 0) {
                 out.println("삭제했습니다.");
-            }
-            else {
-                out.printf("'%d'의 성적 정보가 없습니다.\n", 
-                        request.getParameter("no"));
+            } else {
+                out.printf("'%d'의 성적 정보가 없습니다.\n", no);
             }
 
         } catch (Exception e) {
@@ -116,16 +98,6 @@ public class RoomController extends ArrayList<Room> implements Controller {
         }
     }
     
-    private Room find(String roomName) {
-        Iterator<Room> iterator = this.iterator();
-        while (iterator.hasNext()) {
-            Room room = iterator.next();
-            if (room.getName().equals(roomName)) {
-                return room;
-            }
-        }
-        return null;
-    }
 }
 
 

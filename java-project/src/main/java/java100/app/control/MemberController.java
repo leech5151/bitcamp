@@ -4,12 +4,14 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.List;
 
+import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 
 public class MemberController implements Controller {
     
+    MemberDao memberDao = new MemberDao();
     
     @Override
     public void destroy() {}
@@ -41,18 +43,15 @@ public class MemberController implements Controller {
         PrintWriter out = response.getWriter();
         out.println("[회원 목록]");
         
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "select no,name,email,regdt from ex_memb");
-                ResultSet rs = pstmt.executeQuery();){
+        try {
 
-            while (rs.next()) {
+            List<Member> list = memberDao.selectList(); 
+            for(Member member : list) {
                 out.printf("%d, %s, %s, %s\n",
-                        rs.getInt("no"),
-                        rs.getString("name"), 
-                        rs.getString("email"),
-                        rs.getDate("regdt"));
+                        member.getNo(),
+                        member.getName(),
+                        member.getEmail(),
+                        member.getCreateDate());
             }
 
         } catch (Exception e) {
@@ -65,18 +64,14 @@ public class MemberController implements Controller {
         PrintWriter out = response.getWriter();
         out.println("[회원 등록]");
         
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "insert into ex_memb(name,email,pwd,regdt)"
-                        + " values(?,?,password(?),now())");
-                ){
+        try {
 
-            pstmt.setString(1, request.getParameter("name"));
-            pstmt.setString(2, request.getParameter("email"));
-            pstmt.setString(3, request.getParameter("password"));
+            Member member = new Member();
+            member.setName(request.getParameter("name"));
+            member.setEmail(request.getParameter("email"));
+            member.setPassword(request.getParameter("password"));
 
-            pstmt.executeUpdate();
+            memberDao.insert(member);
             out.println("저장하였습니다.");
 
         } catch (Exception e) {
@@ -87,25 +82,20 @@ public class MemberController implements Controller {
     
     private void doView(Request request, Response response) {
         PrintWriter out = response.getWriter();
-
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "select no,name,email,regdt from ex_memb where no=?");
-                ){
-            pstmt.setInt(1,Integer.parseInt(request.getParameter("no")));
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                out.printf("번호 : %d\n", rs.getInt("no"));
-                out.printf("이름 : %s\n", rs.getString("name"));
-                out.printf("이메일 : %s\n", rs.getString("email"));
-                out.printf("날짜 : %s\n", rs.getDate("regdt"));
+        out.println("[회원 목록]");
+        try {
+            int no = Integer.parseInt(request.getParameter("no"));
+            
+            Member member = memberDao.selectOne(no);
+            if (member != null) {
+                out.printf("번호 : %d\n", member.getNo());
+                out.printf("이름 : %s\n", member.getName());
+                out.printf("이메일 : %s\n", member.getEmail());
+                out.printf("날짜 : %s\n", member.getCreateDate());
             }
             else {
-                out.printf("'%s'의 성적 정보가 없습니다.\n", 
-                        request.getParameter("no"));
+                out.printf("'%s'의 성적 정보가 없습니다.\n", no);
             }
-            rs.close();
 
         } catch (Exception e) {
             e.printStackTrace(); // for developer
@@ -116,19 +106,20 @@ public class MemberController implements Controller {
     private void doUpdate(Request request, Response response) {
         PrintWriter out = response.getWriter();
         
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "update ex_memb set name=?,email=?,pwd=password(?) where no=?");
-                ){
+        try {
+            Member member = new Member();
+            member.setNo(Integer.parseInt(request.getParameter("no")));
+            member.setName(request.getParameter("name"));
+            member.setEmail(request.getParameter("email"));
+            member.setPassword(request.getParameter("password"));
 
-            pstmt.setString(1, request.getParameter("name"));
-            pstmt.setString(2, request.getParameter("email"));
-            pstmt.setString(3, request.getParameter("password"));
-            pstmt.setInt(4, Integer.parseInt(request.getParameter("no")));
-            pstmt.executeUpdate();
-            out.println("저장하였습니다.");
-
+            if(memberDao.update(member) > 0) {
+                out.println("변경하였습니더.");
+            }else {
+                out.printf("'%d'의 성적 정보가 없습니다.\n", 
+                        member.getNo());
+            }
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user

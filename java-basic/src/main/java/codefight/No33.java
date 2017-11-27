@@ -2,23 +2,23 @@ package codefight;
 
 public class No33 {
     static boolean stringsRearrangement(String[] inputArray) {
-        boolean[] pass = new boolean[inputArray.length];
-        String an = "";
+        String[] arr = new String[inputArray.length];
         int index = 0;
-        int loc = 0;
-        for(int i = 0; i+1 < inputArray.length; i++) {
-            if(pass[i] == true) continue;
-            if(inputArray[index].charAt(loc) != inputArray[i].charAt(loc) && i != index) {
-                if(
-                        inputArray[index].substring(loc+1, inputArray[index].length())
-                        == inputArray[i].substring(loc+1, inputArray[index].length()) 
-                        && i != index){
-                    if(pass[index] == false) an += inputArray[i].charAt(loc);
-                    pass[index] = true;
+        int count = 0;
+        int answer = 0;
+        
+        for(int i = 0; i < inputArray.length; i++) {
+            for(int j = 0; j < inputArray.length; j++) {
+                if(i == j) continue;
+                for(int x = 0; x < inputArray[0].length(); x++) {
+                    if(inputArray[i].charAt(x) != inputArray[j].charAt(x)) {
+                        count++;
+                    }
                 }
+                if(count == 1) answer++;
+                count = 0;
             }
         }
-
         return true;
     }
     public static void main(String[] args) {

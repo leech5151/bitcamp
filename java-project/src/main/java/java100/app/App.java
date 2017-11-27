@@ -45,6 +45,7 @@ public class App {
     HashMap<String,Controller> controllerMap = 
             new HashMap<>();
 
+    
     void init() {
         ScoreController scoreController = new ScoreController();
         scoreController.init();
@@ -53,12 +54,13 @@ public class App {
         memberController.init();
         controllerMap.put("/member", memberController);
         
-        controllerMap.put("/board", new BoardController("./data/board.csv"));
+        BoardController boardController = new BoardController();
+        boardController.init();
+        controllerMap.put("/board", boardController);
         
         RoomController roomController = new RoomController();
         roomController.init();
         controllerMap.put("/room", roomController);
-
     }
 
     void service() throws Exception {

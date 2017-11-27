@@ -2,16 +2,19 @@ package codefight;
 
 public class No33_1 {
     static boolean stringsRearrangement(String[] inputArray) {
-        String[] arr = new String[inputArray.length];
-        String temp = "";
-        int arrlen = 0;
-        for(int i = 0; i < inputArray[0].length(); i++) {
-            for(int j = 0; j < inputArray.length; j++) {
+        boolean[] pass = new boolean[inputArray.length];
+        String an = "";
+        int index = 0;
+        int loc = 0;
+        for(int i = 0; i+1 < inputArray.length; i++) {
+            if(pass[i] == true) continue;
+            if(inputArray[index].charAt(loc) != inputArray[i].charAt(loc) && i != index) {
                 if(
-                        inputArray[arrlen].charAt(i) != inputArray[j].charAt(i) &&
-                        inputArray[arrlen].substring(i+1, endIndex)
-                        ) {
-                    
+                        inputArray[index].substring(loc+1, inputArray[index].length())
+                        == inputArray[i].substring(loc+1, inputArray[index].length()) 
+                        && i != index){
+                    if(pass[index] == false) an += inputArray[i].charAt(loc);
+                    pass[index] = true;
                 }
             }
         }
@@ -19,7 +22,6 @@ public class No33_1 {
         return true;
     }
     public static void main(String[] args) {
-        
         String[] a = {  "abc", 
                 "bef", 
                 "bcc", 
