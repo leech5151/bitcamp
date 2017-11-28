@@ -4,7 +4,7 @@
 //:   - JDBC API를 사용하는 방법을 훈련한다.
 //:   - SQL 사용 방법을 훈련한다. 
 //:   
-package java100.app;
+package java100.app.src38_40;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -12,39 +12,56 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Scanner;
 
-import java100.app.beans.ApplicationContext;
+import java100.app.control.BoardController;
 import java100.app.control.Controller;
+import java100.app.control.MemberController;
 import java100.app.control.Request;
 import java100.app.control.Response;
-import java100.app.dao.mysql.BoardDaoImpl;
-import java100.app.dao.mysql.MemberDaoImpl;
-import java100.app.dao.mysql.RoomDaoImpl;
-import java100.app.dao.mysql.ScoreDaoImpl;
-import java100.app.util.DataSource;
+import java100.app.control.RoomController;
+import java100.app.control.ScoreController;
+
+// 0) JDBC API 사용 준비
+//    => build.gradle 파일에 의존 라이브러리 MySQL JDBC 드라이버를 등록한다.
+//    => "gradlew eclipse"를 실행하여 라이브러리를 다운로드하고 
+//       이클립스 설정 파일을 갱신한다.
+//    => 프로젝트를 리프래시 하여 상태를 갱신한다.
+//
+// 1) 성적, 회원, 게시물, 강의실 데이터를 저장할 테이블을 준비한다.
+//    => bitcamp-docs/java-project.sql
+//
+// 2) 성적관리 기능에 DBMS 적용
+//    => Score 클래스를 테이블 정의에 맞춰서 변경
+//    => ScoreController 클래스에 JDBC API 적용
 public class App {
 
     ServerSocket ss;
+    Scanner keyScan = new Scanner(System.in);
 
-    ApplicationContext beanContainer;
-    
+    // 이제 HashMap에 보관하는 값은 Controller 규칙을 준수한 객체이다.
+    HashMap<String,Controller> controllerMap = 
+            new HashMap<>();
+
     
     void init() {
+        ScoreController scoreController = new ScoreController();
+        scoreController.init();
+        controllerMap.put("/score", scoreController);
+        MemberController memberController = new MemberController();
+        memberController.init();
+        controllerMap.put("/member", memberController);
         
-        beanContainer = new ApplicationContext("./bin/application-context.properties");
+        BoardController boardController = new BoardController();
+        boardController.init();
+        controllerMap.put("/board", boardController);
         
-        DataSource ds = new DataSource();
-        ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/studydb");
-        ds.setUsername("study");
-        ds.setPassword("1111");
-        
-        beanContainer.addBean("mysqlDataSource", ds);
-        
-        beanContainer.refreshBeanFactory();
-        
+        RoomController roomController = new RoomController();
+        roomController.init();
+        controllerMap.put("/room", roomController);
     }
-    
 
     void service() throws Exception {
         // 서버 소켓 준비
@@ -57,6 +74,14 @@ public class App {
         }
     }
 
+    private void save() {
+        Collection<Controller> controllers = controllerMap.values();
+        for (Controller controller : controllers) {
+            controller.destroy(); // List에 들어있는 값을 파일에 저장.
+        }
+    }
+
+
     private void request(String command, PrintWriter out) {
 
         String menuName = command;
@@ -66,9 +91,9 @@ public class App {
             menuName = command.substring(0, i);
         }
 
-        Object controller = beanContainer.getBean(menuName);
+        Controller controller = controllerMap.get(menuName);
 
-        if (controller == null && controller instanceof Controller ) {
+        if (controller == null) {
             out.println("해당 명령을 지원하지 않습니다.");
             return;
         }
@@ -80,7 +105,7 @@ public class App {
         Response response = new Response();
         response.setWriter(out);
         
-        ((Controller)controller).execute(request, response);
+        controller.execute(request, response);
     }
 
     private void hello(String command, PrintWriter out) {
@@ -151,6 +176,7 @@ public class App {
                     
                     // 클라이언트와 연결을 끊는 과정이 따로 없기 때문에
                     // 각 요청을 처리할 때 마다 바로 저장해야 한다.
+                    save();
                 }
                 out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
                 out.flush();

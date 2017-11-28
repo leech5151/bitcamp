@@ -1,4 +1,4 @@
-package java100.app.control;
+package java100.app.src38_40.control;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -8,10 +8,8 @@ import java100.app.domain.Score;
 
 public class ScoreController implements Controller {
 
-    ScoreDao scoreDao; 
-    public void setScoreDao(ScoreDao scoreDao) {
-        this.scoreDao = scoreDao;
-    }
+    ScoreDao scoreDao = new ScoreDao(); 
+    
     @Override
     public void destroy() {}
 

@@ -1,4 +1,4 @@
-package java100.app.domain;
+package java100.app.src38_40.domain;
 
 import java.sql.Date;
 
@@ -11,12 +11,10 @@ public class Board {
     
     public Board() {}
 
-    public Board(int no, String title, String content,Date reDate, int viewCount) {
+    public Board(int no, String title, String content) {
         this.no = no;
         this.title = title;
         this.content = content;
-        this.regDate = reDate;
-        this.viewCount = viewCount;
     }
     
     @Override

@@ -1,4 +1,4 @@
-package java100.app.control;
+package java100.app.src38_40.control;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -12,12 +12,8 @@ import java100.app.domain.Room;
 public class RoomController extends ArrayList<Room> implements Controller {
     private static final long serialVersionUID = 1L;
     
-    RoomDao roomDao;
+    RoomDao roomDao = new RoomDao();
     
-    public void setRoomDao(RoomDao roomDao) {
-        this.roomDao = roomDao;
-    }
-
     @Override
     public void destroy() {}
     
