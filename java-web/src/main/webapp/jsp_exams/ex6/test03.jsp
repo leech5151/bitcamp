@@ -12,7 +12,7 @@
 <h1>jsp:useBean</h1>
 JSP 페이지에 이태그를 넣으면,<br>
 자바 객체를 생성하는 코드를 삽입한다.<br>
-<jsp:useBean id="member" class="" type="java.util.Set" scope="page"></jsp:useBean>
+<%-- <jsp:useBean id="member" class="" type="java.util.Set" scope="page"></jsp:useBean> --%>
 
 
 <h2>주요 속성</h2>

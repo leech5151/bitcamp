@@ -1,11 +1,8 @@
-<%@page import="java.io.PrintWriter"%>
-<%@page import="java.util.List"%>
 <%@page import="java100.app.domain.Score"%>
-<%@page import="java100.app.dao.ScoreDao"%>
-<%@page import="java100.app.listener.ContextLoaderListener"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +14,7 @@
 <div class='container'>
 <jsp:include page="/header.jsp"></jsp:include>
 <h1>성적 목록</h1>
-<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
+<p><a href='form' class='btn btn-primary btn-sm'>추가</a></p>
 <table class='table table-hover'>
 <thead>
 <tr>
@@ -25,27 +22,14 @@
 </tr>
 </thead>
 <tbody>
-<%
-ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
-        ScoreDao.class);
-try {
-    List<Score> list = scoreDao.selectList();
-    for (Score score : list) {
-%>
+<c:forEach items="${list}" var="score">
     <tr>
-        <td><%=score.getNo()%></td>
-        <td><a href='view.jsp?no=<%=score.getNo()%>'><%=score.getName()%></a></td>
-        <td><%=score.getSum()%></td>
-        <td><%=score.getAver()%></td>
+        <td>${score.no }</td>
+        <td><a href='view?no=${score.no }'>${score.name}</a></td>
+        <td>${score.sum }</td>
+        <td>${score.aver }</td>
     </tr>
-<%
-    }
-    
-} catch (Exception e) {
-    e.printStackTrace(); // for developer
-    out.println(e.getMessage()); // for user
-}
-%>
+</c:forEach>
 </tbody>
 </table>
 <jsp:include page="/footer.jsp"></jsp:include>

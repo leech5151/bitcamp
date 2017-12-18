@@ -16,7 +16,7 @@
 domain.Member m = new domain.Member();
 m.setName("임꺽정");
 m.setAge(20);
-m.setWorking(true)
+m.setWorking(true);
 pageContext.setAttribute("m", m);
 
 %>

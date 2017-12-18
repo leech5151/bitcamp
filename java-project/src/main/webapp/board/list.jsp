@@ -1,12 +1,8 @@
 <%@page import="java100.app.domain.Board"%>
-<%@page import="java.io.PrintWriter"%>
-<%@page import="java.util.List"%>
-<%@page import="java100.app.listener.ContextLoaderListener"%>
-<%@page import="java100.app.dao.BoardDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +14,7 @@
 <div class='container'>
 <jsp:include page="/header.jsp"></jsp:include>
 <h1>게시물 목록</h1>
-<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
+<p><a href='form' class='btn btn-primary btn-sm'>추가</a></p>
 <table class='table table-hover'>
 <thead>
 <tr>
@@ -26,28 +22,15 @@
 </tr>
 </thead>
 <tbody>
-<%
-try {
-    BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(
-            BoardDao.class);
-    List<Board> list = boardDao.selectList();
-    
-    for (Board board : list) {
-        %>
+<jsp:useBean id="list" type="java.util.List<Board>" scope="request"></jsp:useBean>
+<c:forEach items="${list}" var="board">
         <tr>
-        <td><%=board.getNo() %></td>
-        <td><a href='view.jsp?no=<%=board.getNo() %>'><%=board.getTitle() %></a></td>
-        <td><%=board.getRegDate() %></td>
-        <td><%=board.getViewCount() %></td>
+        <td>${board.no }</td>
+        <td><a href='view?no=${board.no }'>${board.title }</a></td>
+        <td>${board.regDate }</td>
+        <td>${board.viewCount }</td>
         </tr>
-        <%
-    }
-    
-} catch (Exception e) {
-    e.printStackTrace(); // for developer
-    out.println(e.getMessage()); // for user
-}
-%>
+</c:forEach>
 </tbody>
 </table>
 <jsp:include page="/footer.jsp"></jsp:include>
