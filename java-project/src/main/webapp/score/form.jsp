@@ -14,7 +14,7 @@
 <div class='container'>
 <jsp:include page="/header.jsp"></jsp:include>
 <h1>성적 추가</h1>
-<form action='add' method='post'>
+<form action='add.do' method='post'>
 <div class='form-group row'>
 <label for='name' class='col-sm-2 col-form-label'>이름</label>
 <div class='col-sm-10'>

@@ -20,16 +20,16 @@
     <div class='collapse navbar-collapse' id='navbarNav'>
     <ul class='navbar-nav'>
     <li class='nav-item'>
-    <a class='nav-link' href='../score/list'>성적관리</a>
+    <a class='nav-link' href='../score/list.do'>성적관리</a>
     </li>
     <li class='nav-item'>
-    <a class='nav-link' href='../member/list'>회원관리</a>
+    <a class='nav-link' href='../member/list.do'>회원관리</a>
     </li>
     <li class='nav-item'>
-    <a class='nav-link' href='../board/list'>게시판관리</a>
+    <a class='nav-link' href='../board/list.do'>게시판관리</a>
     </li>
     <li class='nav-item'>
-    <a class='nav-link' href='../room/list'>강의실관리</a>
+    <a class='nav-link' href='../room/list.do'>강의실관리</a>
     </li>
     </ul>
     </div>

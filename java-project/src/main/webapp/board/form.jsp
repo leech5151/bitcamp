@@ -20,7 +20,7 @@ RequestDispatcher rd = request.getRequestDispatcher("/header.jsp");
 rd.include(request, response);
 %>
 <h1>새 게시물</h1>
-<form action='add' method='post'>
+<form action='add.do' method='post'>
 <div class='form-group row'>
 <label for='title' class='col-sm-2 col-form-label'>제목</label>
 <div class='col-sm-10'>
