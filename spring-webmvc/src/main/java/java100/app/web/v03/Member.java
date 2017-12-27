@@ -1,16 +1,16 @@
-package domain;
+package java100.app.web.v03;
 
-public class Member {
+public class Member{
     String name;
     int age;
     boolean working;
     
-    
-    
-    @Override
-    public String toString() {
-        return "Member [name=" + name + ", age=" + age + ", working=" + working + "]";
+    public Member(String name, int age, boolean working) {
+        this.name = name;
+        this.age  = age;
+        this.working = working;
     }
+    
     public String getName() {
         return name;
     }
@@ -30,5 +30,5 @@ public class Member {
         this.working = working;
     }
     
-    
+   
 }
