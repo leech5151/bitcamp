@@ -7,20 +7,6 @@ eclipse {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     javaRuntimeName = "JavaSE-1.8"
-    
-    /*
-    file {
-      whenMerged { jdt
-      }
-
-      // .settings/org.eclipse.jdt.core.prefs 파일에 들어갈 값 설정
-      withProperties { properties ->
-        properties["org.eclipse.jdt.core.compiler.codegen.targetPlatform"] = "9"
-        properties["org.eclipse.jdt.core.compiler.source"] = "9"
-        properties["org.eclipse.jdt.core.compiler.compliance"] = "9"
-      }
-    }
-    */
   }
 }
 
@@ -36,6 +22,9 @@ repositories {
 dependencies {
     // MySQL DBMS의 JDBC Driver
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+    
+    // aspectjweaver
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.13'
     
     // Spring IoC 컨테이너 라이브러리
     compile 'org.springframework:spring-context:5.0.2.RELEASE'

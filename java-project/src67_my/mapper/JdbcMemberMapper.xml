@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- namespace 다른 파일에 있는 SQL문과 구문하기 위한 그룹명 -->
+<mapper namespace="java100.app.dao.MemberDao">
+
+    <resultMap type="member" id="memberMap">
+        <id column="no" property="no"/>
+        <result column="pwd" property="password"/>
+        <result column="regdt" property="createdDate"/>
+    </resultMap>
+    
+    <sql id="select1">
+        select
+            no, name, email, regdt
+    </sql>
+    <select id="selectList" resultMap="memberMap" parameterType="map">
+        <include refid="select1"/>
+        from ex_memb
+    </select>
+    <insert id="insert" parameterType="member">
+        insert into jdbc_test(name,email,pwd,regdt) 
+        values(#{name},#{email},password(#{password}),now())
+    </insert>
+    <update id="update" parameterType="board">
+        update ex_memb set
+        name=#{name},
+        email=#{email},
+        pwd=#{password}
+        where no=#{no}
+    </update>
+    <delete id="delete" parameterType="int">
+        delete from ex_memb
+        where no = #{value}
+    </delete>
+    <select id="selectOne" resultMap="memberMap" 
+                          parameterType="int">
+        <include refid="select1"/>
+        from ex_memb
+        where no=#{value}
+    </select>
+</mapper>
