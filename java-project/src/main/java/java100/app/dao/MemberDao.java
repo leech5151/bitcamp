@@ -12,6 +12,7 @@ import java100.app.domain.Member;
 //
 public interface MemberDao {
     List<Member> findAll(Map<String,Object> params);
+    int countAll();
     int insert(Member board);
     int update(Member board);
     int delete(int no);

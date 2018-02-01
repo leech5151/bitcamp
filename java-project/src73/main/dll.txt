@@ -1,0 +1,120 @@
+alter table ex_board
+  add column mno int not null;
+
+alter table ex_board
+  add constraint foreing key (mno) references ex_memb(no);
+
+select no, title, regdt, vwcnt, mno
+from ex_board;
+
+select no, name
+from ex_memb;
+
+select b.no, b.title, b.regdt, b.vwcnt, b.mno, m.no, m.name
+from ex_board b, ex_memb m;
+
+select b.no, b.title, b.regdt, b.vwcnt, m.no, m.name
+from ex_board b join ex_memb m on b.mno=m.no;
+
+----------------------------72-------------------------------
+create table ex_file(
+  no int not null,
+  filename varchar(255) not null,
+  bno int not null
+);
+
+alter table ex_file
+  add constraint primary key (no);
+
+alter table ex_file
+  modify column no int not null auto_increment;
+
+alter table ex_file
+  add constraint foreign key (bno) references ex_board(no);
+
+select no, title, conts, regdt, vwcnt, mno
+from ex_board
+where no=33;
+
+select no, name
+from ex_memb
+where no=12
+
+select no, filename
+from ex_file
+where bno=33;
+
+select
+	b.no, b.title, b.conts, b.regdt, b.vwcnt,
+	m.no, m.name, m.email,
+	f.no, f.filename
+from ex_board as b 
+	join ex_memb as m on b.mno=m.no
+	join ex_file as f on b.no=f.bno
+where b.no=33;
+
+alter table ex_board
+  add column mno int not null;
+
+alter table ex_board
+  add constraint foreing key (mno) references ex_memb(no);
+
+select no, title, regdt, vwcnt, mno
+from ex_board;
+
+select no, name
+from ex_memb;
+
+select b.no, b.title, b.regdt, b.vwcnt, b.mno, m.no, m.name
+from ex_board b, ex_memb m;
+
+select b.no, b.title, b.regdt, b.vwcnt, m.no, m.name
+from ex_board b join ex_memb m on b.mno=m.no;
+
+----------------------------72-------------------------------
+create table ex_file(
+  no int not null,
+  filename varchar(255) not null,
+  bno int not null
+);
+
+
+alter table ex_file
+  add constraint primary key (no);
+
+alter table ex_file
+  modify column no int not null auto_increment;
+
+alter table ex_file
+  add constraint foreign key (bno) references ex_board(no);
+
+select no, title, conts, regdt, vwcnt, mno
+from ex_board
+where no=33;
+
+select no, name
+from ex_memb
+where no=12
+
+select no, filename
+from ex_file
+where bno=33;
+
+select
+    b.no, b.title, b.conts, b.regdt, b.vwcnt,
+    m.no, m.name, m.email,
+    f.no, f.filename
+from ex_board as b 
+    join ex_memb as m on b.mno=m.no
+    join ex_file as f on b.no=f.bno
+where b.no=33;
+
+show create table ex_file
+
+alter table ex_file
+drop foreign key ex_file_ibfk_2;
+
+alter table ex_file
+    add constraint foreign key (bno) references ex_board(no) on 
+
+delete cascade;
