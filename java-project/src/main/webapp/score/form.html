@@ -12,7 +12,7 @@
 <header>
 <nav class='navbar navbar-expand-lg navbar-light bg-light'>
 <a class='navbar-brand' href='../index.html'>
-  <img src='/bitcamp-java-project/images/bootstrap-solid.svg' width='30' height='30' class='d-inline-block align-top' alt=''>
+  <img src='../images/bootstrap-solid.svg' width='30' height='30' class='d-inline-block align-top' alt=''>
   비트캠프
 </a>
 
@@ -35,7 +35,7 @@
   </li>
 </ul>
 
-홍길동<a href="/bitcamp-java-project/app/auth/logout" 
+홍길동<a href="../app/auth/logout" 
            class='btn btn-light btn-sm'>로그아웃</a>
     </div>
 </nav>
@@ -47,7 +47,8 @@
 <div class='form-group row my-view'>
 <label for='no' class='col-sm-2 col-form-label'>번호</label>
 <div class='col-sm-10'>
-<input class='form-control' readonly id='no' type='number' name='no'>
+<input class='form-control' readonly id='no' type='number' 
+       name='no'> 
 </div>
 </div>
 <div class='form-group row'>
@@ -77,21 +78,22 @@
 <div class='form-group row my-view'>
 <label for='sum' class='col-sm-2 col-form-label'>합계</label>
 <div class='col-sm-10'>
-<input class='form-control' readonly id='sum' type='text' > 
+<input class='form-control' readonly id='sum' type='text'> 
 </div>
 </div>
 <div class='form-group row my-view'>
 <label for='aver' class='col-sm-2 col-form-label'>평균</label>
 <div class='col-sm-10'>
-<input class='form-control' readonly id='aver' type='text' > 
+<input class='form-control' readonly id='aver' type='text'> 
+            
 </div>
 </div>
 
-<div class='form-group row '>
+<div class='form-group row'>
 <div class='col-sm-10'>
 <button id="addBtn" type="button" class='btn btn-primary btn-sm my-new'>추가</button>
-<button id= "updateBtn" type="button" class='btn btn-primary btn-sm my-view'>변경</button>
-<button id= "deleteBtn" type="button" class='btn btn-primary btn-sm my-view' >삭제</button>
+<button id="updateBtn" type="button" class='btn btn-primary btn-sm my-view'>변경</button>
+<button id="deleteBtn" type="button" class='btn btn-primary btn-sm my-view'>삭제</button>
 </div>
 </div>
 </form>
@@ -101,131 +103,103 @@
 </footer>
 </div>
 
-<script src='/bitcamp-java-project/node_modules/jquery/dist/jquery.slim.min.js'></script>
-<script src='/bitcamp-java-project/node_modules/popper.js/dist/umd/popper.min.js'></script>
-<script src='/bitcamp-java-project/node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src='../node_modules/jquery/dist/jquery.min.js'></script>
+<script src='../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<!-- <script src='../js/bit.js'></script> -->
 
 <script type="text/javascript">
-var addBtn = document.querySelector('#addBtn'),
-    updateItem = document.querySelector('#update'),
-    deleteItem = document.querySelector('#delete'),
-    noItem = document.querySelector('#no'),
-    nameItem = document.querySelector('#name'),
-    korItem = document.querySelector('#kor'),
-    engItem = document.querySelector('#eng'),
-    sumItem = document.querySelector('#sum'),
-    averItem = document.querySelector('#aver'),
-    mathItem = document.querySelector('#math');
-    
+var addBtn = $('#addBtn'),
+    updateBtn = $('#updateBtn'),
+    deleteBtn = $('#deleteBtn'),
+    noItem = $('#no'),
+    nameItem = $('#name'),
+    korItem = $('#kor'),
+    engItem = $('#eng'),
+    sumItem = $('#sum'),
+    averItem = $('#aver'),
+    mathItem = $('#math');
+
 var index = location.href.indexOf('?');
-if (index != -1) {
-    var qs = location.href.substr(index +1);
+if (index != -1) { // 기존 데이터를 조회할 경우,
+    var qs = location.href.substr(index + 1);
     var arr = qs.split('=');
-    load(arr[1])
-     var el = document.querySelectorAll('.my-new');
-    for (var i = 0; i < el.length; i++) {
-        el[i].style['display'] = 'none';
-    }
-} else {
-    var el = document.querySelectorAll('.my-view');
-    for (var i = 0; i < el.length; i++) {
-        el[i].style['display'] = 'none';
-    }
-}
-
-addBtn.onclick = function() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState < 4) return;
-        if (xhr.status != 200) {
-            window.alert('서버 실행 오류!');
-            return;
-        }
-        location.href = "list.html"
-    };
-    xhr.open('POST', '../json/score/add', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(toQueryString({
-        name: nameItem.value,
-        kor: korItem.value,
-        eng: engItem.value,
-        math: mathItem.value
-    }));
-}
-updateBtn.onclick = function() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState < 4) return;
-        if (xhr.status != 200) {
-            window.alert('서버 실행 오류!');
-            return;
-        }
-        location.href = "list.html"
-    };
-    xhr.open('POST', '../json/score/update', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(toQueryString({
-        no: noItem.value,
-        name: nameItem.value,
-        kor: korItem.value,
-        eng: engItem.value,
-        math: mathItem.value
-    }));
-}
-deleteBtn.onclick = function() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState < 4) return;
-        if (xhr.status != 200) {
-            window.alert('서버 실행 오류!');
-            return;
-        }
-        location.href = "list.html"
-    };
-    xhr.open('POST', '../json/score/delete', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(toQueryString({
-        no: noItem.value,
-        name: nameItem.value,
-        kor: korItem.value,
-        eng: engItem.value,
-        math: mathItem.value
-    }));
-}
-
-function toQueryString(obj) {
-    var qs = '';
-    for (var propName in obj) {
-        if (qs.length > 0) qs += '&';
-        
-        qs += propName + '=' + obj[propName]
-    }
-    return qs;
-}
-function load(no) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState < 4) return;
-        if (xhr.status != 200) {
-            window.alert('서버 실행 오류!');
-            return;
-        }
-        
-        var obj = JSON.parse(xhr.responseText);
-        
-        noItem.value = obj.data.no;
-        nameItem.value = obj.data.name;
-        korItem.value = obj.data.kor;
-        engItem.value = obj.data.eng;
-        mathItem.value = obj.data.math;
-        sumItem.value = obj.data.sum;
-        averItem.value = obj.data.aver;
-    };
+    $('.my-new').css('display', 'none');
+    $(() => {
+        $.ajax('../json/score/' + arr[1], {
+            dataType: 'json',
+            success: (result) => {
+                noItem.val(result.data.no);
+                nameItem.val(result.data.name);
+                korItem.val(result.data.kor);
+                engItem.val(result.data.eng);
+                mathItem.val(result.data.math);
+                sumItem.val(result.data.sum);
+                averItem.val(result.data.aver);
+            },
+            error: () => {
+                window.alert('서버 실행 오류!');
+            }
+        });
+    });
     
-    xhr.open('GET', '../json/score/' + no, true);
-    xhr.send();
+} else { // 신규 데이터 입력일 경우,
+    $('.my-view').css('display', 'none');
 }
 
+addBtn.click(() => {
+    $.ajax('../json/score/add', {
+        data: {
+            name: nameItem.val(),
+            kor: korItem.val(),
+            eng: engItem.val(),
+            math: mathItem.val()
+        },
+        dataType: 'json',
+        method: 'POST',
+        success: (result) => {
+            location.href = "list.html";
+        },
+        error: () => {
+            window.alert('서버 실행 오류!');
+        }
+    });
+});
+
+updateBtn.click(() => {
+    $.ajax('../json/score/update', {
+        data: {
+            no: noItem.val(),
+            name: nameItem.val(),
+            kor: korItem.val(),
+            eng: engItem.val(),
+            math: mathItem.val()
+        },
+        dataType: 'json',
+        method: 'POST',
+        success: (result) => {
+            location.href = "list.html";
+        },
+        error: () => {
+            window.alert('서버 실행 오류!');
+        }
+    });
+});
+
+deleteBtn.click(() => {
+    $.ajax('../json/score/delete', {
+        data: {
+            no: noItem.val()
+        },
+        dataType: 'json',
+        success: (result) => {
+            location.href = "list.html";
+        },
+        error: () => {
+            window.alert('서버 실행 오류!');
+        }
+    });
+});
 </script>
 
 

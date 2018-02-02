@@ -12,7 +12,7 @@
 <header>
 <nav class='navbar navbar-expand-lg navbar-light bg-light'>
 <a class='navbar-brand' href='../index.html'>
-  <img src='../images/bootstrap-solid.svg' width='30' height='30' class='d-inline-block align-top' alt=''>
+  <img src='/bitcamp-java-project/images/bootstrap-solid.svg' width='30' height='30' class='d-inline-block align-top' alt=''>
   비트캠프
 </a>
 
@@ -35,7 +35,7 @@
   </li>
 </ul>
 
-홍길동<a href="../app/auth/logout" 
+홍길동<a href="/bitcamp-java-project/app/auth/logout" 
            class='btn btn-light btn-sm'>로그아웃</a>
     </div>
 </nav>
@@ -82,84 +82,98 @@
 </footer>
 </div>
 
-<script src='../node_modules/jquery/dist/jquery.min.js'></script>
-<script src='../node_modules/popper.js/dist/umd/popper.min.js'></script>
-<script src='../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
-<!-- <script src='../js/bit.js'></script> -->
+<script src='/bitcamp-java-project/node_modules/jquery/dist/jquery.slim.min.js'></script>
+<script src='/bitcamp-java-project/node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='/bitcamp-java-project/node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
 
 <script type="text/javascript">
-var words = $('#words'),
-    searchBtn = $('#searchBtn'),
-    prevBtn = $('#prevBtn'),
-    currBtn = $('#currBtn'),
-    nextBtn = $('#nextBtn'),
-    tbody = $('#list > tbody'),
+var words = document.querySelector('#words'),
+    searchBtn = document.querySelector('#searchBtn'),
+    prevBtn = document.querySelector('#prevBtn'),
+    currBtn = document.querySelector('#currBtn'),
+    nextBtn = document.querySelector('#nextBtn'),
     currPageNo = 1;
 
 // 서버에서 목록 데이터를 가져온다.
 load(1);
 
-searchBtn.click(() => {
+searchBtn.onclick = function(event) {
     //event.preventDefault();
+    
     load(1, {
         "words": words.value
     })
-});
+};
 
-prevBtn.click(() => {
+prevBtn.onclick = function() {
     load(currPageNo - 1)
-});
+};
 
-nextBtn.click(() => {
+nextBtn.onclick = function() {
     load(currPageNo + 1)
-});
+};
 
 
 function load(pageNo, options) {
-    
-    if (options == undefined) options = {};
-    options.pn = pageNo;
-    
-    $.ajax('../json/score/list', {
-        /*method: 'GET',*/
-        data: options,
-        dataType: 'json',
-        success: (result) => {
-            
-            tbody.html(""); // <tbody> 콘텐츠를 지운다.
-            
-            for (var data of result.list) {
-                $('<tr>')
-                    .html(  
-	                    "<td>" + data.no + "</td>" + 
-	                    "<td><a href='form.html?no=" + data.no + "'>" + data.name + "</a></td>" + 
-	                    "<td>" + data.sum + "</td>" +
-	                    "<td>" + data.aver + "</td>")
-                    .appendTo(tbody);
-            }
-            
-            currPageNo = result.pageNo;
-            currBtn.html(currPageNo);
-            
-            if (result.pageNo == 1) {
-                $(prevBtn.parent()).addClass("disabled");
-            } else {
-                $(prevBtn.parent()).removeClass("disabled");
-            }
-            
-            if (result.lastPageNo == result.pageNo) {
-                $(nextBtn.parent()).addClass("disabled");
-            } else {
-                $(nextBtn.parent()).removeClass("disabled");
-            }
-        },
-        error: () => {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState < 4) return;
+        if (xhr.status != 200) {
             window.alert('서버 실행 오류!');
+            return;
         }
-    });
+            
+        var tbody = document.querySelector('#list > tbody');
+        var result = JSON.parse(xhr.responseText);
+        
+        tbody.innerHTML = ""; // <tbody> 콘텐츠를 지운다.
+        
+        for (var data of result.list) {
+            var tr = document.createElement('tr');
+            tr.innerHTML =  
+                "<td>" + data.no + "</td>" + 
+                "<td><a href='form.html?no=" + data.no + "'>" + data.name + "</a></td>" + 
+                "<td>" + data.sum + "</td>" +
+                "<td>" + data.aver + "</td>";
+            tbody.appendChild(tr);
+        }
+        
+        currPageNo = result.pageNo;
+        currBtn.innerHTML = currPageNo;
+        
+        if (result.pageNo == 1) {
+            prevBtn.parentNode.className += " disabled";
+        } else {
+            prevBtn.parentNode.className = 
+                prevBtn.parentNode.className.replace(/disabled/i, "");
+        }
+        
+        if (result.lastPageNo == result.pageNo) {
+            nextBtn.parentNode.className += " disabled"
+        } else {
+            nextBtn.parentNode.className = 
+                nextBtn.parentNode.className.replace(/disabled/i, "");
+        }
+    };
+    
+    if (options == undefined) {
+        options = {};
+    }
+    options['pn'] = pageNo;
+    
+    xhr.open('GET', '../json/score/list?' + toQueryString(options), true);
+    xhr.send(); 
 }
 
-
+function toQueryString(obj) {
+    var qs = '';
+    for (var propName in obj) {
+        if (qs.length > 0) qs += '&';
+        
+        qs += propName + '=' + obj[propName]
+    }
+    return qs;
+}
 </script>
 
 
